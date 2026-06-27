@@ -1,0 +1,46 @@
+# GitHub Actions: 每日 gitleaks 扫描 (mm-work-88 Phase 5 L3, 2026-06-27)
+#
+# Why: 4 repo 任何 push 都过 gitleaks, 0 残留才合入
+# How: gitleaks-action 官方, schedule + push + PR 触发
+# Where: 复制到 <repo>/.github/workflows/gitleaks.yml
+
+name: gitleaks
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # 每日 03:00 UTC
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  scan:
+    name: gitleaks scan
+    runs-on: ubuntu-latest
+    # 报告哲学 (C 方案): 报告不 fail build
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 扫 git history
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+
+      - name: Report violations (mm-work-88 L3)
+        if: failure()
+        run: |
+          echo "❌ gitleaks 发现敏感词!"
+          echo ""
+          echo "本地修复步骤:"
+          echo "  1. cd /home/rucli/\$REPO"
+          echo "  2. gitleaks detect --config .gitleaks.toml --redact -v"
+          echo "  3. 编辑文件 (sed 替换或删除), 或更新 .gitleaks.toml allowlist"
+          echo "  4. git add -A && git commit --amend --no-edit && git push -f"
+          echo ""
+          echo "  凭据如已泄露, 立即到对应 SaaS 控制台 rotate API key"

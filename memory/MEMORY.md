@@ -1,0 +1,74 @@
+- [cc-connect 使用规范](cc-connect.md) — /ccs 委派规则 + 文件传输
+- [数据管道反误杀协议](data_pipeline_protocol.md) — 三大守则 + 历史事故
+- [scanner 项目 bind mount](bind-mount-scanner.md) — /home/rucli/scanner/ 绕过 WSL /mnt/ 权限问题
+- [批量编辑效率](batch-edits-single-file.md) — 同文件多处改动合并为 Write
+- [Scanner 项目凭证](credentials-scanner.md) — Tushare token + 163 邮箱 SMTP 授权码 + 收件地址
+- [MiniMax 委派规则](minimax-delegation-rule.md) — 代码/审计/执行走 MiniMax，禁止 Agent 子代理替代
+- [补数必须走 mm-work](backfill-must-use-mmwork.md) — 补数/批处理占用太大，一律委派 mm-work --monitor
+- [Shadow 服务器 SSH](ssh-shadow-server.md) — <SHADOW_HOST> PEM key 路径 + 服务配置
+- [股票策略项目](stock-project.md) — ~/stock/ Tushare Pro 5000积分内接口文档已就绪
+- [2026-05 队列策略方向](queue-strategy-2026.md) — 不动参数，Q3年龄标记，重置信号监控，维持现状
+- [数据扩展至2015年](data-expansion-2015-complete.md) — list_days float64 bug 修复 + pool_members 补齐 + 纯 pandas Phase 4
+- [禁止部署 cc-connect](cc-connect-do-not-deploy.md) — 禁止替换二进制/重启服务
+- [因子引擎两阶段架构](factor-engine-dual-path.md) — v1量价因子 batch DuckDB SQL / daily pandas 增量
+- [三文档工作流](three-doc-workflow.md) — superpowers v6.0.3+ brainstorming → writing-prd → writing-ui-spec → writing-tech-spec → writing-plans
+- [AGENTS.md 协议](agents-md-protocol.md) — 项目根 AGENTS.md 固化 4 轴（Goal/Audience/Scope/Format）+ Agent Behavior，避免 brainstorming 重复问
+- [升级 Claude Code 2.1.185 + cc-connect 1.3.4](claude-code-2-1-185-upgrade.md) — 2026-06-21 升级记录：minimaxi 接入受益于 v2.1.181 cache fix + v2.1.178 401 fix
+- [settings.json 手动增强 2026-06-21](settings-enhancements-2026-06-21.md) — 升级后立即落地的 5 项（模型锁定/fallback/持续思考/deny 规则/Notification hook）
+- [sub-agent mmax typo 修复 2026-06-22](subagent-mmax-typo-fix.md) — agent frontmatter 错写 mmax@ 而非 minimax@，v2.1.178 严格化后工具集为空
+- [2026-06-22 BondShadowTracker 修复](2026-06-22-bond-tracker-fix.md) — _update_bond_tracker 缺 import 导致非阻塞 WARN
+- [2026-06-23 P0-1 凭证迁移](2026-06-23-credential-env-migration.md) — crontab/scanner_headless.sh/run_daily.sh 明文迁移到 .env；source 必须带 export
+- [【最终回答】标记](final-answer-marker.md) — 每条回答末尾必须标注【最终回答】
+- [PR 多分支线性链合入](pr-merge-linear-chain.md) — 先 git log --all --graph 看是否单链，再 fast-forward，避免 cherry-pick 冲突
+- [Companion 作为 Sub-Agent fallback](companion-fallback-subagent.md) — Sub-Agent 被拒时，用 minimax-companion.mjs task --write 直委派
+- [OOS Backtest 低内存策略](oos-backtest-strategy.md) — 1-month 烟雾测试 + 按年分批，shadow server 不可用
+- [工作流 Stage 2+3 合并 2026-06-22](workflow-stage-merge.md) — 一次批准覆盖计划+执行，行动标签加"暂缓"以保留分步能力
+- [Agent 注册协议](agent-registration-protocol.md) — Claude Code 启动扫描 `~/.claude/agents/`，session 内冻结，description 字段别用 markdown 字符
+- [qmd Claude Code 集成](qmd-claude-code-integration.md) — 4 步法 + WSL 2 Vulkan 限制 + BM25 fallback
+- [qmd query/vsearch 死循环 2026-06-25](qmd-query-vsearch-deadlock-2026-06-25.md) — query/vsearch 实测死循环（CLAUDE.md "CUDA 加速 < 30s" 不成立），只有 search (BM25) + get (按 path) 可用
+- [自动驾驶闭环反馈](self-driving-loop-feedback.md) — 不要每次问下一步，连续委派能做的 mm-work，最后完整汇报
+- [Python 模块加载顺序陷阱](python-module-load-order-pitfall.md) — def 在 if __name__ 之后会 NameError，仅 python file.py 时暴露，import 测试不暴露
+- [venv vs 系统 Python 部署](venv-vs-system-python-deploy.md) — 部署验证用 venv 路径，不用 /usr/bin/python3，否则 ModuleNotFoundError 误归因
+- [PnL 归因 daily vs cum](pnl-attribution-daily-vs-cum.md) — regime 切片用 sum(daily_pnl)，绝不用 cum_pnl 差（regime 切换时不连续）
+- [2026-06-23 P1-3 Jinja2 完成](2026-06-23-p1-3-jinja2-completion.md) — 4 个 build 函数重构 1236→470+367 行，byte-identical 零回归
+- [2026-06-24 Stock 开源工具审计](2026-06-24-stock-opensource-audit.md) — stock 项目 6 维度审计 24 候选清单，P0 三项 3-4h 闭环
+- [2026-06-24 Stock P0 三项执行](2026-06-24-stock-p0-3-execution.md) — token清除+依赖可复现+tenacity重试 20 分钟闭环（6-12× 加速）
+- [2026-06-24 Stock P1 第 1 批](2026-06-24-stock-p1-batch1.md) — DuckDB view 清理 + OOM guard test + ci.sh pytest 45 分钟闭环
+- [2026-06-24 Stock P1 第 2 批](2026-06-24-stock-p1-batch2.md) — OBV 单测 16 case + 12 scripts print→logger + iterrows→itertuples，pytest 117 passed 零回归
+- [2026-06-24 Stock P1 第 3 批](2026-06-24-stock-p1-batch3.md) — test_data_layer 60 测试 / 2 commit / pytest 117→177 + Sub-Agent Bash race 升级 Driver 主 session 兜底
+- [2026-06-24 Stock P1 第 4 批 P1-3](2026-06-24-stock-p1-batch4.md) — schema.py 17 dataclass → pydantic.BaseModel 重构，validator.py 适配 v2 API，pytest 177 零回归
+- [2026-06-24 Stock P2 第 1 批](2026-06-24-stock-p2-batch5.md) — notifier 多渠道 + pipeline.sh 健康检查 + pytest 185 + mock patch 路径陷阱
+- [2026-06-25 Stock 季度规划第 2 批](2026-06-25-stock-p1-batch6.md) — P1-1.2/P1-1.3/P2-7 三任务闭环（84 测试 + mkdocs 站点 + pytest 269 + 软链 + dead code 发现）
+- [日内数据流按钟表时间分段](quant-timing-flow-design.md) — 5min bar 09:35 才完整，不能在 09:31 验证；强制反退化测试 + DataNotReadyError
+- [多条件系统拆分类轴与仓位轴](two-axis-classification.md) — 失败配额/档位必须指明属于哪个轴；classify_track 返回 (cat, count_axis1, count_axis2) tuple
+- [OOS 验证标准设计](oos-verification-standards.md) — baseline 必须明示来源 + 多 baseline 并行；每条硬门槛加 n 下限；降级路径强制分组报告
+- [父亲策略多层语义分离](father-context-hierarchy.md) — 大盘层/个股主力层/K线层不能混；"赶顶/出货"是大盘，"借势吸筹"是个股；工程注释强制标注层级
+- [设计文档 review 6 类细节 bug](spec-review-detail-bug-patterns.md) — 流水线角色冲突 / 仓位死代码 / 文字代码不一致 / 配置重复 / 缺常量 / 执行边界模糊；review 必走 checklist
+- [MiniMax WebSearch 工具链 + Claude Code MCP 静默忽略 (已解禁 2026-06-26)](minimax-websearch-broken.md) — `minimax-m3-worker.md` tools 已加 WebSearch；M3 网关仍可能 400 2013, 4 层 fallback (实际 L2 失效, 改用 L4 helper); settings.json mcpServers 被 Claude Code 静默忽略 (已知 bug), L4 curl 直调 Brave API 是当前最稳路径
+- [Ruflo 评估 2026-06](ruflo-evaluation-2026-06.md) — 61k Star Claude Code 多 Agent 编排，Issue #2458/#2429/#2450 直接命中 MiniMax 代理 + hooks + 安全，强烈不建议应用
+- [Claude Code session 卡死 recovery SOP](claude-code-session-loop-recovery.md) — 循环自引用元规则 + 声明式 turn 无 tool_use = context 溢出；/compact → 干净 prompt → /clear → minimax-rescue
+- [CCS M3 思维链陷阱](ccs-m3-thinking-pitfall.md) — M3 API 只接受 adaptive/disabled（不接受 enabled，400 错误）；Worker 用 MAX_THINKING_TOKENS=0 关闭；DeepSeek Anthropic 兼容 profile 模板
+- [CCS 架构 Python vs npm](ccs-architecture-python-vs-npm.md) — PATH /home/rucli/.local/bin/ccs 是 Python 3.10 独立实现不读 config.yaml；npm @kaitranntt/ccs 已 40 天未用；4 0 调用的 profile 已删
+- [量化策略执行层 4 类冲突](quant-execution-conflicts-patterns.md) — 日内时序左右互搏 / 技术指标语义错配 / 时钟命名残留 / 模糊常量缺数学判别式；自动化交易员视角自查 checklist
+- [2026-06-25 General Session 修复](2026-06-25-general-session-recovery.md) — 隔壁 session 14:14-14:16 卡死 5次 /stop 无效 + 幻视 NODE_LLAMA_CPP_GPU=false 字段不存在 + recovery Level 1-4 SOP + 干净 prompt 模板
+- [WSL2 CPU 限制 & qmd embed 启动期死锁 2026-06-26](wsl2-cpu-limits-and-qmd-embed-trap.md) — WSL2 三法实测（systemd-run ❌ / cgroup v2 ❌ / taskset ✅）+ embeddinggemma-300M 启动期占满 4 核；session-to-qmd 必须 taskset + nohup setsid 后台化
+- [2026-06-26 scanner MongoClient close 反模式](2026-06-26-scanner-mongo-close-bug.md) — run_daily_scanner.py + sync_cb_basic.py 共 20 处 close() 中途调用污染 db 句柄，pymongo InvalidOperation → 25 天静默失败；commit 14b9271 全删 + 邮件恢复
+- [2026-06-26 scanner P0 完整闭环](2026-06-26-scanner-p0-complete.md) — close() 修复 + mm-work-71 18 天补数 + pipeline_health_check.py 健康检查 + .githooks/pre-commit 守卫；2 commits / +642 行 / 19 天数据齐全
+- [2026-06-26 scanner 正股新闻丢失](2026-06-26-scanner-news-q2-bug.md) — Q2-B/Q2-AB 拆分时 P0-1 只修 1 处 (watchlist)，news 拉取 line 1555 还在用废弃 q2；commit 4331fe7 修复 + except pass 改 logger.debug
+- [2026-06-26 qmd 三层修复闭环](2026-06-26-qmd-three-layer-fix.md) — L1 qmd-grep helper 替代 query/vsearch + L2 llm.js maxDuration patch 解除 10 分钟硬超时 + L3 qmd_health_check.py 5 项自检告警；3 层独立可降级
+- [2026-06-26 mm-work-73 sudo 永久解锁](mm-work-73-sudo-permanent-unlock.md) — settings.json Bash(sudo *) 拆为细粒度 deny（仅 rm/dd/chmod/mkfs/fdisk）+ apt_pkg 永久修复（cnf-update-db shebang 改 python3.12）+ /tmp/deploy-monitor.sh 一键脚本（apt 修复 + btop + earlyoom 阈值 + D-Bus notify 替代）；下次 session 后 Driver 自主跑 sudo
+- [2026-06-26 mm-work-74 sudo 危险动作边界](mm-work-74-sudo-safety-boundary.md) — 父亲放权 sudo 全部但危险动作必须拒绝；S 级系统毁灭 12 条 deny + A 级系统破坏 32 条 deny + B 级业务破坏 13 条 deny = 总 61 条 deny（44 条 sudo deny）覆盖 rm/dd/mkfs/fdisk/chmod/chown/curl|sh/passwd/usermod/visudo/crontab-r/iptables 等；自检清单 6 条 + 决策流程图 + 标准拒绝话术 + 自我边界承诺
+- [2026-06-26 minimax-rescue sonnet typo 修复](2026-06-26-subagent-rescue-sonnet-fix.md) — minimax-rescue.md model: sonnet 在 MiniMax 网关解析失败 → sub-agent 工具集为空；改 model: MiniMax-M3；smoke test 验证 worker 正常，rescue 待下 session 生效；本 session 内仍走 minimax-companion.mjs fallback
+- [2026-06-26 mm-work-75 监控 5 层验证](mm-work-75-monitor-5layer-verify.md) — 父亲指令"接着做 sh 文件任务"；mm-work-52 verify-resource-monitor.sh 跑通（25 PASS / 0 WARN / 0 FAIL）+ mm-work-53 fix-apt-cnf-apt_pkg.sh 终极修复脚本幂等验证 + 修 mm-work-59 错配位置 /usr/local/bin/oom-pre-kill.sh；6 层防线（L1 earlyoom + L2 .wslconfig + L3 preflight + L4 cron + L5 OOM hook + L6 CPU watchdog）全绿
+- [2026-06-26 mm-work-80 1 RPS 节流 + 完整 earlyoom](mm-work-80-1rps-throttle-earlyoom-full.md) — 父亲"隔一秒调用一次就好了"+ install-earlyoom.sh 完整版补 OOMScoreAdjust=-1000 缺口；6 层监控 25 PASS 实测 + 父子彻底/有边界分层答复（oom_score_adj 实际 -100 因 DynamicUser 限制是上游问题 Driver 已无法再优化）
+- [2026-06-26 mm-work-77 web_search P0 三件套](mm-work-77-websearch-p0.md) — rate limit 监控 / 429 重试 / LRU cache；63→181 行 / 35-38x 加速 / X-RateLimit-* headers 全抓 / 修 3 bug
+- [2026-06-26 mm-work-78 web_search P1 6 项](mm-work-78-websearch-p1.md) — 双维度 rate limit / 50 条 LRU / filters / Retry-After / gzip 节省 63.2% / metrics 埋点；181→388 行 / 10 项验收全 PASS / 修 4 bug
+- [2026-06-26 mm-work-79 web_search P2-5 metrics](mm-work-79-websearch-p2-metrics.md) — CSV 时间序列持久化 + --trend 24h/7d/30d + --stats lifetime + --help；388→678 行 / 10 项验收全 PASS / cache HIT 0.06→0.12s 性能代价可接受
+- [pre-commit 工具能力边界 2026-06-27](pre-commit-tool-limitation.md) — trailing-whitespace-fixer 源码无 --check 模式 (强行加会报错); ruff-format 支持 --check; C 方案哲学适用前提是工具支持 check-only
+- [test-runner 全局可见 2026-06-27](test-runner-global-visible.md) — agent 在 `~/.claude/agents/` 注册一次, 新 session 自动可见 (Agent 注册协议); "推广"是误用词, 父亲 2026-06-27 纠正
+- [Plan before Code 硬规则](2026-06-27-plan-before-code-rule.md) — Vibe Coding #1 实践，>50 行代码改动前先写 plan.md 蓝图
+- [Vibe Coding 报告哲学](vibe-coding-report-philosophy.md) — 父亲 2026-06-27 报告哲学 + 4 层 C 方案
+- [P1 multi-Agent + test-runner](2026-06-27-p1-multi-agent-test-runner.md) — multi-Agent 并行调研 + test-runner agent frontmatter (无 Write 工具, Bash heredoc 写测试, 严禁改业务代码)
+- [multi-Agent Fan-out Skill 2026-06-27](2026-06-27-multi-agent-fanout-skill.md) — /multi-agent-fanout Skill 封装, audit/research/fix 三模板
+- [ccs-websearch MCP 真相反转 2026-06-27](2026-06-27-ccs-websearch-revelation.md) — mcpServers 应写 ~/.claude.json 不是 settings.json (mm-work-50 教训是误解); ccs-websearch MCP Connected 含 6 provider fallback, 当前 0 provider enabled
+- [MCP 工具链全 Connected mm-work-88 2026-06-27](2026-06-27-mcp-toolchain-installed.md) — 5 MCP (ccs-websearch/ccs-image-analysis/claude-baton/context7/github) 全 Connected; 父亲业务需要的全套 AI 工具链到位; claude mcp add <name> --scope user 格式

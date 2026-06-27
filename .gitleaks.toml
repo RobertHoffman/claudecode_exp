@@ -1,0 +1,88 @@
+# .gitleaks.toml — mm-work-88 专有规则 (2026-06-27)
+#
+# Why: gitleaks 默认 100+ 规则只覆盖 ~25% (Brave API key / 私钥块),
+#      9 条专有规则覆盖 minimax / Tushare / 中文路径 / IP 模式 / env 变量
+# How: 放置在每个 repo 根目录, gitleaks detect --config .gitleaks.toml
+# Who: Driver / Worker push 前必跑 gitleaks detect, 0 残留才 push
+
+title = "mm-work-88 private repo guard"
+
+# 全开默认 100+ 规则 (gitleaks 8.16+)
+[extend]
+useDefault = true
+
+# 规则 1: minimax API key (sk-cp-...)
+[[rules]]
+id = "minimax-api-key"
+description = "minimax API key (sk-cp-...)"
+regex = '''sk-cp-[A-Za-z0-9_-]{20,}'''
+tags = ["secret", "minimax"]
+
+# 规则 2: Tushare Pro token (f13ad6ef...)
+[[rules]]
+id = "tushare-token"
+description = "Tushare Pro token (f13ad6ef...)"
+regex = '''f13ad6ef[A-Za-z0-9]+'''
+tags = ["secret", "tushare"]
+
+# 规则 3: minimax API key 完整前缀 (含 Y454SU6cKN...)
+[[rules]]
+id = "minimax-full-key"
+description = "minimax API key 完整前缀 (含 Y454SU6cKN...)"
+regex = '''7bPJHGmsbLTM4sREAeCpRU9MLQojNoRfKPpa[A-Za-z0-9_-]+'''
+tags = ["secret", "minimax"]
+
+# 规则 4: minimax API endpoint
+[[rules]]
+id = "minimax-endpoint"
+description = "minimax API endpoint"
+regex = '''api\.minimaxi\.com'''
+tags = ["endpoint", "minimax"]
+
+# 规则 5: Tushare Pro endpoint
+[[rules]]
+id = "tushare-endpoint"
+description = "Tushare Pro endpoint"
+regex = '''api\.tushare\.pro'''
+tags = ["endpoint", "tushare"]
+
+# 规则 6: Shadow server 公网 IP (47.80.20.103)
+[[rules]]
+id = "shadow-server-ip"
+description = "Shadow server 公网 IP (47.80.20.103)"
+regex = '''47\.80\.20\.103'''
+tags = ["server", "shadow"]
+
+# 规则 7: PEM 私钥文件路径 (/home/rucli/.cc-connect/attachments/*.pem)
+[[rules]]
+id = "pem-key-path"
+description = "PEM 私钥文件路径"
+regex = '''/home/rucli/\.cc-connect/attachments/[^\s"']+\.pem'''
+tags = ["path", "credential"]
+
+# 规则 8: 敏感环境变量赋值行 (ANTHROPIC_AUTH_TOKEN=... / TUSHARE_TOKEN=... / BRAVE_API_KEY=... / MINIMAX_API_KEY=...)
+[[rules]]
+id = "env-var-secret"
+description = "敏感环境变量赋值行"
+regex = '''(?:ANTHROPIC_AUTH_TOKEN|TUSHARE_TOKEN|BRAVE_API_KEY|MINIMAX_API_KEY|MINIMAX_AUTH_TOKEN)=[^\s<"'][^\s"']*'''
+tags = ["env", "credential"]
+
+# 规则 9: 中文 PEM 文件名 (测试.pem)
+[[rules]]
+id = "chinese-pem-filename"
+description = "中文 PEM 文件名 (测试.pem)"
+regex = '''测试\.pem'''
+tags = ["path", "credential"]
+
+# 允许误报 (False positive allowlist)
+[allowlist]
+description = "允许: 文档说明用占位符 / 规则定义本身"
+paths = [
+  '''\.gitleaks\.toml$''',           # 规则定义本身
+  '''plan-backup-3-2-1\.md$''',     # 备份 plan 含 47.80.20.103 描述
+  '''redact-sensitive\.py$''',       # 脱敏脚本 (历史, 已废弃)
+  '''sensitive-scan\.sh$''',         # 手写扫描脚本 (历史, 已废弃)
+]
+regexes = [
+  '''<[A-Z_]+>''',                   # 占位符如 <SHADOW_HOST> / <BRAVE_KEY> / <PEM_KEY_PATH>
+]
